@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Categories;
 use App\Category_detail;
 use App\Product;
 
@@ -46,7 +47,7 @@ class AdminProductDetailController extends Controller
             $content->header('header');
             $content->description('description');
 
-            $content->body($this->form()->edit($id));
+            $content->body($this->updateForm($id)->edit($id));
         });
     }
 
@@ -101,5 +102,54 @@ class AdminProductDetailController extends Controller
             $form->display('created_at', 'Created At');
             $form->display('updated_at', 'Updated At');
         });
+    }
+
+    public function updateForm($id){
+        return Admin::form(ProductDetail::class, function (Form $form) use ($id) {
+
+            $form->display('id', 'ID');
+            $form->select('product_id')->options(Product::all()->pluck('product_name', 'id'));
+            $form->select('key')->options($this->getKeys($id));
+            $form->text('value','Value: ');
+
+            $form->display('created_at', 'Created At');
+            $form->display('updated_at', 'Updated At');
+        });
+    }
+
+    public function getKeys($id){
+        $pd = ProductDetail::find($id);
+        $p = Product::find($pd['product_id']);
+        $c = Categories::find($p['category_id']);
+        $pc = Categories::find($c['parent_category_id']);
+        $ck = Category_detail::where('category_id', $c['id'])->get();
+        $ck2 = Category_detail::where('category_id', $pc['id'])->get();
+        $ck3 = Category_detail::where('category_id', $pc['id'])->get();
+
+        $arr = array();
+
+
+        if(count($ck) > 0) {
+            //array_push($arr, $ck);
+            foreach($ck as $i){
+                $arr[$i['id']] = $i['key'];
+            }
+        }
+
+        if(count($ck2) > 0) {
+            //array_push($arr, $ck2);
+            foreach($ck2 as $i){
+                $arr[$i['id']] = $i['key'];
+            }
+        }
+
+        if(count($ck3) > 0) {
+            //array_push($arr, $ck2);
+            foreach($ck3 as $i){
+                $arr[$i['id']] = $i['key'];
+            }
+        }
+
+        return $arr;
     }
 }

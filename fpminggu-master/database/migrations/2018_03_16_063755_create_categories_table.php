@@ -21,6 +21,7 @@ class CreateCategoriesTable extends Migration
             $table->uuid('parent_category_id')->unsigned()->nullable();
             $table->foreign('parent_category_id')->references('id')->on('categories')->onDelete('cascade');
         });
+
         DB::statement('ALTER TABLE categories ALTER COLUMN id SET DEFAULT uuid_generate_v4();');
 
     }
