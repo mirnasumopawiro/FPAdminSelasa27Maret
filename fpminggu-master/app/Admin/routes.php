@@ -19,7 +19,8 @@ Route::group([
     $router->resource('/address',UserAddressController::class);
     $router->resource('/order',OrderController::class);
     $router->resource('/orderitem',OrderItemController::class);
-    $router->get('/upload', function() {
+    $router->get('/upload', function()
+    {
         return view('welcome');
     });
 

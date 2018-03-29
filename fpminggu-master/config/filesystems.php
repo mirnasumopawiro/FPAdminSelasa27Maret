@@ -48,6 +48,16 @@ return [
             'root' => storage_path('app'),
         ],
 
+        'dospace'=> [
+            'driver' => 's3',
+            'key' => 'KMMZFCYFV2VNYYDVYJV7',
+ 		    'secret' => 'HaIhitdQNIUenZG9mI0/NgO3a1A7u6LhqYLchS4rAUA',
+ 		    'region' => 'sgp1',
+ 		    'bucket' => 'picture',
+ 		    'endpoint' => 'https://sgp1.digitaloceanspaces.com',
+],
+
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
@@ -69,6 +79,15 @@ return [
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
+        ],
+
+        'do_spaces' => [
+            'driver' => 's3',
+            'key' => env('DO_SPACES_KEY'),
+            'secret' => env('DO_SPACES_SECRET'),
+            'endpoint' => env('DO_SPACES_ENDPOINT'),
+            'region' => env('DO_SPACES_REGION'),
+            'bucket' => env('DO_SPACES_BUCKET'),
         ],
 
     ],
